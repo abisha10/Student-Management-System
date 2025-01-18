@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+  <h1 class="m-4">All students</h1>
+  <div class="row">
+      <div class="col-12">
+          {% if students %}
+          <div class="card bg-light mb-3 mx-4" > 
+              <div class="card-header"><i class="fa-solid fa-list me-2"></i>Student Records</div>
+              <div class="card-body">
+       
+                <p class="card-text">
+                  <div class="table-responsive">
+                      <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">Student Number</th>
+                              <th scope="col">First Name</th>
+                              <th scope="col">Last Name</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Field of Study</th>
+                              <th scope="col">GPA</th>
+                              <th scope="col">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            
+                            {% for student in students %}
+                              <tr class="table-light">
+                                <td>{{student.stu_num}}</td>
+                                <td>{{student.first_name}}</td>
+                                <td>{{student.last_name}}</td>
+                                <td>{{student.email}}</td>
+                                <td>{{student.field_of_study}}</td>
+                                <td>{{student.gpa}}</td>
+                                <td>
+                                  {% comment %} actions {% endcomment %}
+                                  <button type="button" class="btn btn-outline-success btn-sm" fdprocessedid="8llwj" href=" {% url "indexx:view_student" student.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{student.id}}"><i class="fa-solid fa-circle-info fa-lg"></i></button>
+
+                                  {% comment %} modal for view student {% endcomment %}
+                                  <div class="modal" id="myModal{{student.id}}" tabindex="-1" aria-labelledby="myModalLabel1" area-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Student: {{student.first_name}} {{student.last_name}}</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" fdprocessedid="rpe1d">
+                                            <span aria-hidden="true"></span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <ul class"list-unstyled">
+                                            <li>Student Number: <strong>{{student.stu_num}}</strong></li>
+                                            <li>First Name: <strong>{{student.first_name}}</strong></li>
+                                            <li>Last Name: <strong>{{student.last_name}}</strong></li>
+                                            <li>Field of study: <strong>{{student.field_of_study}}</strong></li>
+                                            <li>Email: <strong>{{student.email}}</strong></li>
+                                            <li>GPA: <strong>{{student.gpa}}</strong></li>
+                                          
+                                          </ul>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" fdprocessedid="udnwvc">Close</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  {% comment %} button for edit {% endcomment %}
+                                  <a href="{% url "indexx:edit" student.id %}" style="text-decoration:none;">
+                                    <button type="button" class="btn btn-outline-warning btn-sm" fdprocessedid="v7cmvq"><i  class="fa-solid fa-pen-to-square"></i></button>
+                                  </a>
+                                  
+                                  {% comment %} delete btn {% endcomment %}
+                                  <button type="button" class="btn btn-outline-danger btn-sm" fdprocessedid="long6b" data-bs-toggle="modal" data-bs-target="#delete{{student.id}}"><i class="fa-solid fa-trash"></i></button>
+
+                                  <div class="modal" id="delete{{student.id}}" tabindex="-1" aria-labelledby="myModalLabel2" area-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                      <div class="modal-content">
+                                        <div class="modal-header">
+                                          <h5 class="modal-title">Student: {{student.first_name}} {{student.last_name}}</h5>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" fdprocessedid="rpe1d">
+                                            <span aria-hidden="true"></span>
+                                          </button>
+                                        </div>
+                                        <div class="modal-body">
+                                          <p>Are you sure you want to delete the student record? </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                          <form action="{% url "indexx:delete" student.id %}" method="POST">
+                                            {% csrf_token %}
+                                            <input type="submit" class="btn btn-primary" value="delete">
+                                          </form>
+                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" fdprocessedid="udnwvc">Cancel</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                </td>
+                              </tr>
+                            {% endfor %}
+                            
+                          </tbody>
+                        </table>
+                  </div>
+                </p>
+              </div>
+          </div>
+          {% else %}
+          <div class="alert alert-dismissible alert-light w-50">
+              <button type="button" class="btn-close" data-bs-dismiss="alert" fdprocessedid="857zt8"></button>
+              <strong>Oh snap!</strong>  No Student Record
+            </div>
+          {% endif %}
+         
+      </div>
+  </div>
+
+
+{% endblock %}
